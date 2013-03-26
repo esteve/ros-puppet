@@ -14,6 +14,8 @@ node default {
     package {
         'wget': ensure => latest;
         'python-software-properties': ensure => latest;
+        'vim': ensure => latest;
+        'git': ensure => latest;
         'ros-groovy-ros-base':
             ensure => latest,
             require => Apt::Ppa['http://packages.ros.org/ros/ubuntu'];
