@@ -23,5 +23,30 @@ node default {
         'ros-groovy-common-tutorials':
             ensure => latest,
             require => Apt::Ppa['http://packages.ros.org/ros/ubuntu'];
+        'python-rosdep':
+            ensure => latest,
+            require => Apt::Ppa['http://packages.ros.org/ros/ubuntu'];
+        'ros-groovy-catkin':
+            ensure => latest,
+            require => Apt::Ppa['http://packages.ros.org/ros/ubuntu'];
     }
+}
+
+exec {'rosdep-init':
+    command => '/usr/bin/rosdep init',
+    require => Package['python-rosdep'],
+    creates => '/etc/ros/rosdep/sources.list.d/20-default.list';
+}
+
+exec {'rosdep-update':
+    command => '/usr/bin/rosdep update',
+    require => Exec['rosdep-init'];
+}
+
+file {"/home/vagrant/.bashrc":
+  source => "puppet:///modules/user/bashrc",
+  mode   => 644,
+  owner => 'vagrant',
+  group => 'vagrant',
+  require => Package['ros-groovy-catkin'];
 }
