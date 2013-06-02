@@ -1,11 +1,3 @@
-class apt() {
-  package {'python-software-properties':
-    ensure => 'latest';
-    "wget":
-    ensure => "latest";
-  }
-}
-
 define apt::ppa($key=undef) {
 
   exec { "add-apt-key-${name}":
